@@ -12,6 +12,7 @@
 import 'reflect-metadata'
 import { Ignitor, prettyPrintError } from '@adonisjs/core'
 import { startYjsWebSocketServer } from '../websocket/yjs_server.js'
+import env from '#start/env'
 
 /**
  * URL to the application root. AdonisJS need it to resolve
@@ -35,7 +36,7 @@ new Ignitor(APP_ROOT, { importer: IMPORTER })
     app.booting(async () => {
       await import('#start/env')
     })
-    startYjsWebSocketServer(1234)
+    startYjsWebSocketServer(env.get('PORT', 1234))
     app.listen('SIGTERM', () => app.terminate())
     app.listenIf(app.managedByPm2, 'SIGINT', () => app.terminate())
   })
